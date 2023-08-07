@@ -3,15 +3,15 @@
 // Do any of these variables need to be initialized when the page is loaded? 
 // When do they need to be reset or updated?
 
-var cost_per_day = document.getElementById('calculated-cost')
-var number_of_days_selected = 0
+var cost_per_day = document.getElementById('calculated-cost');
+var number_of_days_selected = 0;
 var mon = document.getElementById('monday');
 var tues = document.getElementById('tuesday');
 var wed = document.getElementById('wednesday');
 var thu = document.getElementById('thursday');
 var fri = document.getElementById('friday');
-var full_day = document.getElementById('full')
-var half_day = document.getElementById('half')
+var full_day = document.getElementById('full');
+var half_day = document.getElementById('half');
 var clear_days = document.getElementById('clear-button');
 
 
@@ -20,33 +20,40 @@ var clear_days = document.getElementById('clear-button');
 // when the day buttons are clicked, we will apply the "clicked" class to that element, and update any other relevant variables. Then, we can recalculate the total cost.
 // added challenge: don't update the dayCounter if the same day is clicked more than once. hint: .classList.contains() might be helpful here!
 
-function add_color(){
+function days(){
     if (this.classList.contains('blue-hover')){
-        this.classList.add('clicked'); 
-        updateNumberOfDaysSelected()    
-    }
+
+        if (!this.classList.contains('clicked')){
+            this.classList.add('clicked');
+            number_of_days_selected++;
+        }
+    } 
+    calculate();
 }
 
-mon.addEventListener('click',add_color);
-tues.addEventListener('click',add_color);
-wed.addEventListener('click',add_color);
-thu.addEventListener('click',add_color);
-fri.addEventListener('click',add_color);
+mon.addEventListener('click', days); 
+tues.addEventListener('click', days);
+wed.addEventListener('click', days);
+thu.addEventListener('click', days);
+fri.addEventListener('click', days);
+
 
 
 
 /********* clear days *********/
 // when the clear-button is clicked, the "clicked" class is removed from all days, any other relevant variables are reset, and the calculated cost is set to 0.
 
-function remove_color() {
+function clear_button() {
     mon.classList.remove('clicked');
     tues.classList.remove('clicked');
     wed.classList.remove('clicked');
     thu.classList.remove('clicked');
     fri.classList.remove('clicked');
+    cost_per_day.innerHTML = 0;
+    number_of_days_selected = 0;
 }
 
-clear_days.addEventListener('click',remove_color)
+clear_days.addEventListener('click',clear_button);
 
 /********* change rate *********/
 // when the half-day button is clicked, set the daily rate to $20, add the "clicked" class to the "half" element, remove it from the "full" element, and recalculate the total cost.
@@ -55,10 +62,11 @@ function half_day_color(){
     
     if (this.classList.contains('blue-hover')){
         this.classList.add('clicked');
-        full_day.classList.remove('clicked')
+        full_day.classList.remove('clicked');
     }
+    calculate();
 }
-half_day.addEventListener('click',half_day_color)
+half_day.addEventListener('click',half_day_color);
 
 
 
@@ -67,10 +75,11 @@ half_day.addEventListener('click',half_day_color)
 function full_day_color(){
     if (this.classList.contains('blue-hover')){
         this.classList.add('clicked');
-        half_day.classList.remove('clicked')
+        half_day.classList.remove('clicked');
     }
+    calculate();
 }
-full_day.addEventListener('click',full_day_color)
+full_day.addEventListener('click',full_day_color);
 
 
 
@@ -78,21 +87,16 @@ full_day.addEventListener('click',full_day_color)
 /********* calculate *********/
 // when a calculation is needed, set the innerHTML of the calculated-cost element to the appropriate value
 
+function calculate (){
+    var total_cost = 0;
 
-
-
-function half_day_price(){
-    let total_cost = 0;
     if (half_day.classList.contains('clicked')){
-        total_cost = number_of_days_selected * 20
+        total_cost = number_of_days_selected * 20;  
+    } 
+  
+    else if (full_day.classList.contains('clicked')){
+        total_cost = number_of_days_selected * 35;
     }
-    cost_per_day.innerHTML = total_cost;
-}
 
-function full_day_price(){
-    let total_cost = 0;
-    if (full_day.classList.contains('clicked')){
-        total_cost = number_of_days_selected * 35
-    }
     cost_per_day.innerHTML = total_cost;
 }
