@@ -241,7 +241,7 @@ ul {
 .flex textarea{
     height: 150px;
     margin-left: 24px;
-    width: 303px;
+    width: 300px;
 }
 
 .flex input,textarea,button{
@@ -253,8 +253,8 @@ ul {
 }
 
 #submit-button{
-    width: 308px;
-    margin-right: 61px;
+    width: 306px;
+    margin-right: 65px;
 }
 
 .contact form{
